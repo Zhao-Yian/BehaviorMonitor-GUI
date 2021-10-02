@@ -33,9 +33,9 @@ import ctypes
 
 
 connection = pymysql.connect(host='localhost',
-                             user='root',
-                             password='zya123.0',
-                             db='action',
+                             user='',
+                             password='',
+                             db='',
                              charset='utf8mb4',
                              cursorclass=pymysql.cursors.DictCursor)
 
@@ -44,25 +44,13 @@ TABLE_MAXSIZE = 500
 
 #行为列表
 ACTION = [
-    '用户从床上起身',
-    '用户在椅子上办公',
-    '用户离开电视机前',
-    '用户回到电视机前',
-    '用户在家里频繁走动',
-    '用户离开电脑桌',
-    '用户开门走后门锁未关'
+
 ]
 
 
 #每个行为对应的处理措施
 RESOLUTION = {
-    '用户从床上起身': '2s后关闭闹钟',
-    '用户在椅子上办公': '停止音乐播放',
-    '用户离开电视机前': '2s后关闭电视',
-    '用户回到电视机前': '打开电视',
-    '用户在家里频繁走动': '推荐音乐电影',
-    '用户离开电脑桌': '关闭电脑摄像头',
-    '用户开门走后门锁未关': '关闭门锁'
+
 }
 
 
@@ -70,54 +58,13 @@ RESOLUTION = {
 # 每个文件只能对应一个行为;
 # time里面是对应每个文件对应行为的持续时间，保证视频和监测结果的一致性;
 ActionFile = [
-    #起床4
+    
+    #打开窗户
     {
-        'id': 4,
-        'result': './npy_data/wakeup/matwakeuppredict.npy',
-        'lable': './npy_data/wakeup/matwakeuplabel.npy',
-        'time': 1
-    },
-
-    #工作1
-    {
-        'id': 1,
-        'result': './npy_data/work/matworkpredict.npy',
-        'label': './npy_data/work/matworklabel.npy',
-        'time': 1
-    },
-
-    # 踱步5
-    {
-        'id': 5,
-        'result': './npy_data/wonder/matwonderpredict.npy',
-        'label': './npy_data/wonder/matwonderlabel.npy',
-        'time': 1
-    },
-
-    #打开窗户2
-    {
-        'id': 2,
-        'result': './npy_data/openwindow/matopenwindowpredict.npy',
-        'label': './npy_data/openwindow/matopenwindowlabel.npy',
-        'time': 1
-    },
-
-    #回家不关门3
-    {
-        'id': 3,
-        'result': './npy_data/dooropen/matdooropenpredict.npy',
-        'label': './npy_data/dooropen/matdooropenlabel.npy',
-        'time': 1
-    },
-
-    #看电视0
-    {
-        'id':0,
-        'result': './npy_data/tv/mattvpredict.npy',
-        'label': './npy_data/tv/mattvlabel.npy',
-        'time': 1
-    }
-
+        'id': ,
+        'result': '',
+        'label':'',
+        'time':''
     ]
 
 
@@ -325,14 +272,6 @@ class BehaviorMonitor(QtWidgets.QMainWindow):
         #根据输出的标签打印监测到的行为信息
         #print(ACTION[d])
 
-        #结果校验
-        predict_id = actionfile['id']
-        if predict_id != d:
-            d = predict_id
-        return ACTION[d]
-
-
-
     def signalClear(self):
         #激活清除曲线按钮
         self.signalflag = 0
@@ -429,23 +368,7 @@ class BehaviorMonitor(QtWidgets.QMainWindow):
 
     def showInitial(self):
         #初始化界面，测试用
-        self.ui.headersTable_2.insertRow(self.row)
-        self.time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.ui.headersTable_2.setItem(self.row, 0, QTableWidgetItem(self.time))
-        self.ui.headersTable_2.setItem(self.row, 1, QTableWidgetItem('用户在椅子上办公'))
-        self.ui.headersTable_2.setItem(self.row, 2, QTableWidgetItem(self.isabnormal))
 
-        self.ui.headersTable_2.insertRow(self.row)
-        self.time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.ui.headersTable_2.setItem(self.row, 0, QTableWidgetItem('2021-09-15 19:21:32'))
-        self.ui.headersTable_2.setItem(self.row, 1, QTableWidgetItem('用户离开电脑桌'))
-        self.ui.headersTable_2.setItem(self.row, 2, QTableWidgetItem(self.isabnormal))
-
-        self.ui.headersTable_2.insertRow(self.row)
-        self.time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.ui.headersTable_2.setItem(self.row, 0, QTableWidgetItem('2021-09-15 19:24:56'))
-        self.ui.headersTable_2.setItem(self.row, 1, QTableWidgetItem('用户在家里频繁走动'))
-        self.ui.headersTable_2.setItem(self.row, 2, QTableWidgetItem('是'))
 
     def showDatetime(self):
         #开启一个子线程用来更新当前时间并显示在文本框中
